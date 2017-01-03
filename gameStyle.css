@@ -1,0 +1,111 @@
+/*Select class*/
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+/*Upper bar*/
+#navBar {
+    background-color: black;
+}
+#navBar div {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 18px;
+    margin: 3px 5px;
+}
+#navBar div:last-child {
+    float: right;
+    cursor: pointer;
+    background-color: #273347;
+}
+#navBar div:last-child:hover {
+    background-color: cornflowerblue;
+}
+/*Game canvas*/
+#game {
+    border: 3px solid black;
+    /*cursor: pointer;*/
+}
+/*Menues*/
+.onCanvasI {
+    position: absolute;
+    text-align: center;
+}
+.onCanvasI div {
+    vertical-align: middle;
+    cursor: pointer;
+    background-size: cover;
+    border: 1px solid black;
+}
+.hm div {
+    margin: 5px auto;
+    padding: 20px 30px;
+    font-size: 30px;
+    text-align: center;
+    background-color: #273347;
+}
+.hm div:hover {
+    background-color: cornflowerblue;
+}
+#startMenu div:first-child {
+    margin-bottom: 50px;
+}
+#playerMode div {
+    display: inline-block;
+}
+#playerMode div:first-child, #playerNames div:first-child {
+    cursor: default;
+    display: block;
+    background-color: transparent;
+    border: none;
+}
+#playerMode div:last-child, #playerNames div:last-child {
+    display: block;
+    margin-top: 30px;
+    width: 100px;
+}
+#playerMode .active {
+    border: 3px solid white;
+}
+#playerNames input {
+    padding: 10px 5px;
+    font-size: 20px;
+    width: 200px;
+}
+#message {
+    display: block;
+    font-size: 15px;
+    color: red;
+    background-color: transparent;
+    border: none;
+}
+#gameMenu {
+    background-color: white;
+    border: 1px solid #273347;
+}
+#gameMenu div {
+    display: inline-block;
+    height: 40px; width: 40px;
+    margin: 3px auto;
+    margin-left: 3px;
+}
+#gameMenu div:last-child {
+    margin-right: 3px;
+}
+#gameMenu div:hover {
+    border: 2px solid #273347;
+}
+#gameMenu p {
+    text-align: center;
+    color: #273347;
+    padding: 5px;
+    width: 100px;
+}
+#gameMenu .message {
+    display: inline-block;
+    width: auto;
+}
