@@ -112,7 +112,7 @@ function GameStart() {
     $('#navBar').hide();
     $('#gameMenu').hide();
     $('#gameOver').hide();
-    //$('#theRules').hide();
+    $('#theRules').hide();
     $('#settings').hide();
     $('#startMenu').show();
     
