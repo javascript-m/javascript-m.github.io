@@ -8,32 +8,71 @@
     user-select: none;
 }
 /*Upper bar*/
-#navBar {
+#navBar, #navBar #plCont {
+    display:-webkit-box;
+    -webkit-box-orient:horizontal;
+    -webkit-box-align:stretch; 
+     display:-moz-box;      
+    -moz-box-orient:horizontal;
+    -moz-box-align:stretch;
+    display:box;
+    box-orient:horizontal;
+    box-align:stretch;
     background-color: black;
 }
 #navBar div {
-    display: inline-block;
+    padding: 10px 5px;
     vertical-align: middle;
-    padding: 18px;
-    margin: 3px 5px;
 }
-#navBar div:last-child {
+#navBar div div {
+    text-align: center;
+}
+#navBar #time, #navBar #exit {
+    width: 80%;
+}
+#navBar #time {
+    float: left;
+}
+#navBar #exit {
     float: right;
     cursor: pointer;
-    background-color: #273347;
+    background-color: black;
+    border: 1px solid lightgray;
+    width: 80%;
 }
-#navBar div:last-child:hover {
-    background-color: cornflowerblue;
+#navBar #exit:hover {
+    background-color: rgba(58,58,58,1);
+}
+#navBar #plCont div {
+    display: inline-block;
+}
+#navBar .inL, #navBar #plCont div:nth-child(1), #navBar #plCont div:nth-child(3) {
+    -webkit-box-flex:1.0;
+    -moz-box-flex:1.0;
+    box-flex:1.0;
+    width: 100px;
 }
 /*Game canvas*/
 #game {
     border: 3px solid black;
     /*cursor: pointer;*/
 }
+#canvasCont {
+    margin-bottom: 10px;
+}
 /*Menues*/
 .onCanvasI {
-    position: absolute;
-    text-align: center;
+    position: relative;
+    background-color: blue;
+    margin: 3px; /*Left-right*/
+    margin-bottom: 0;
+    margin-top: -579px; /*Canvas height+canvasBorder*/
+    padding: 80px; /*Left-right*/
+    padding-top: 120px;
+    padding-bottom: 0;
+    width: 416px; /*Canvas width -2*padding*/
+    height: 456px; /*Canvas height-padding-top*/
+    background-color: rgba(58,58,58,.8);
 }
 .onCanvasI div {
     vertical-align: middle;
@@ -42,14 +81,20 @@
     border: 1px solid black;
 }
 .hm div {
-    margin: 5px auto;
+    margin: 10px auto;
     padding: 20px 30px;
     font-size: 30px;
-    text-align: center;
-    background-color: #273347;
+    background-color: black;
+    border: 3px solid lightgray;
 }
 .hm div:hover {
-    background-color: cornflowerblue;
+    background-color: rgba(58,58,58, 1);
+}
+#startMenu, #playerMode, #playerNames, #gameMenu, #gameOver {
+    text-align: center;
+}
+#startMenu div {
+    width: 150px;
 }
 #startMenu div:first-child {
     margin-bottom: 50px;
@@ -65,7 +110,7 @@
 }
 #playerMode div:last-child, #playerNames div:last-child {
     display: block;
-    margin-top: 30px;
+    margin-top: 10px;
     width: 100px;
 }
 #playerMode .active {
@@ -79,24 +124,127 @@
 #message {
     display: block;
     font-size: 15px;
-    color: red;
+    color: #b70000;
     background-color: transparent;
     border: none;
 }
+#gameOver h1, #gameOver h3 {
+    text-align: center;
+}
+/*The Rules*/
+#settings {
+    position: absolute;
+    text-align: justify;
+    margin-top: 20px;
+    width: 500px;
+    height: 536px; /*Canvas height-2*20px*/
+    background-color: rgba(15,15,15,1);
+    padding: 5px;
+    overflow-y: auto;
+    border-radius: 5px;
+}
+#settings {
+    margin-top: 100px;
+    height: 350px;
+}
+#theRules h3, #settings h3 {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 40px;
+}
+#theRules {
+    font-family: 'Inconsolata', monospace;
+    font-size: 15px;
+    cursor: default;
+    margin: auto;
+    margin-bottom: 0;
+    margin-top: -576px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 20px;
+    width: 556px;
+    height: 556px;
+}
+#theRules div {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    width: 546px;
+    height: 536px;
+    margin-bottom: 20px;
+    background-color: rgba(15,15,15,1);
+    border-radius: 5px;
+}
+#theRules div div {
+    width: 500px;
+    height: auto;
+    margin: 5px auto;
+    overflow: hidden;
+    border: none;
+    color: white;
+}
+#theRules div div div {
+    font-size: 20px;
+    margin: 5px;
+    display: inline;
+}
+#theRules div div .img {
+    background-color: blue;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#theRules div div .txt {
+    overflow: hidden;
+}
+#theRules div div table {
+    margin: 5px auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+#theRules th, #theRules td {
+    border: 1px solid white;
+    margin: 0;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    min-width: 60px;
+    height: 40px;
+    max-height: 40px;
+}
+#theRules div:nth-child(7) {
+    margin: 5px auto;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 20px;
+    text-align: center;
+    background-color: black;
+    border: 3px solid lightgray;
+    width: 100px;
+}
+#theRules div:nth-child(7):hover {
+    background-color: rgba(58,58,58,1);
+}
+/*Game Menu*/
 #gameMenu {
+    position: absolute;
     background-color: white;
-    border: 1px solid #273347;
+    border: 1px solid black;
 }
 #gameMenu div {
+    vertical-align: middle;
+    cursor: pointer;
+    background-size: cover;
+    border: 1px solid black;
     display: inline-block;
-    height: 40px; width: 40px;
+    height: 50px; width: 50px;
     margin: 3px auto;
     margin-left: 3px;
 }
 #gameMenu div:last-child {
     margin-right: 3px;
 }
-#gameMenu div:hover {
+#gameMenu .menuEl:hover {
     border: 2px solid #273347;
 }
 #gameMenu p {
@@ -104,6 +252,17 @@
     color: #273347;
     padding: 5px;
     width: 100px;
+}
+#gameMenu div .coins {
+    position: relative;
+    height: 20px;
+    width: 20px;
+    margin: 0;
+    border: none;
+    top: 30px;
+    left: 15px;
+    line-height: 20px; /*=visina*/
+    background-image: url('Sprites/Menu/Coin.png');
 }
 #gameMenu .message {
     display: inline-block;

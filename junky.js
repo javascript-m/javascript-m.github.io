@@ -4,7 +4,7 @@ function updateTable() {
     $('#coins2').text(coins[1]);
     $('#cNR1').text(houses[0]);
     $('#cNR2').text(houses[1]);
-}
+};
 function done(i, z) {
     coins[POTEZ]-=price[i][z];
     opAt.x=-1; opAt.y=-1;
@@ -13,11 +13,14 @@ function done(i, z) {
 };
 function disMessage() {
     $("#gameMenu p").remove();
-    $("<p>").addClass("message").appendTo("#gameMenu").text("You don't have enough money to do this!");
+    $("<p>").addClass("message").appendTo("#gameMenu").text("You don't have enough coins to do this!");
 };
 function imageUrl(fn) {
     return "Sprites/Menu/"+fn+".png";
 };
+function finished() {
+    return (map[0][0]==7 || map[mapSize-1][mapSize-1]==1);
+}
 var blocks = [
     [4, 5], //Upgrade
     [2, 3], //Build
@@ -36,12 +39,29 @@ var stuff = [
     ["buHut", "buCastle", "dBuHut", "dBuCastle"], //Build //4
     ["Conquer","dConquer"]
 ];
+function An(x, y, seq, T) {
+    mapAnimate[y][x]=1;
+    setTimeout(function() {
+        mapAnimate[y][x]=0;
+    }, T);
+    
+    var timer = setInterval(function() {
+        if(finished()) clearInterval(timer);
+        if(mapAnimate[y][x]) { //Zbog istrovremenih animacija
+            st1.draw(x*BLOCK, y*BLOCK, seq);
+        }
+        if(!mapAnimate[y][x]) clearInterval(timer);
+        MouseH();
+    },50);
+}
 function Cant(z, c) {
     $("<p>").appendTo("#gameMenu").text(stuff[0][z]);
 };
 function Upgrade(z, c) {
-    $("<div>").appendTo("#gameMenu");
+    $("<div>").appendTo("#gameMenu").addClass('menuEl');
     var item = $("#gameMenu div:first-child");
+    $("<div>").appendTo("#gameMenu div").addClass('coins');
+    
     var ind;
     if(z==0) { //It's a hut
         if(c>=3) ind=0;
@@ -49,15 +69,16 @@ function Upgrade(z, c) {
             ind=2;
             item.addClass("disabled");
         }
+        item.children().text("3");
     } else {
         if(c>=4) ind=1;
         else {
             ind=3;
             item.addClass("disabled");
         }
+        item.children().text("4");
     }
     item.css('background-image', 'url('+imageUrl(stuff[1][ind])+')');
-
     item.click(function() {
         if(item.hasClass('disabled') == false) {
             if(z==0) houses[POTEZ]+=1;
@@ -69,11 +90,14 @@ function Upgrade(z, c) {
 };
 function Build(z, c) {
     //var imageUrl = "Sprites/Menu/buHut.png";
-    $("<div>").appendTo("#gameMenu").addClass('h').css('background-image', 'url('+imageUrl(stuff[2][0])+')');
-    $("<div>").appendTo("#gameMenu").addClass('c').css('background-image', 'url('+imageUrl(stuff[2][1])+')');
+    $("<div>").appendTo("#gameMenu").addClass('menuEl').addClass('h').css('background-image', 'url('+imageUrl(stuff[2][0])+')');
+    $("<div>").appendTo("#gameMenu").addClass('menuEl').addClass('c').css('background-image', 'url('+imageUrl(stuff[2][1])+')');
     
     if(c<2) $("#gameMenu div:nth-child(1)").addClass("disabled").css('background-image', 'url('+imageUrl(stuff[2][2])+')');
     if(c<3) $("#gameMenu div:nth-child(2)").addClass("disabled").css('background-image', 'url('+imageUrl(stuff[2][3])+')');
+    
+    $("<div>").appendTo("#gameMenu .h").addClass('coins').text("2");
+    $("<div>").appendTo("#gameMenu .c").addClass('coins').text("3");
     
     $('#gameMenu').children().click(function() {
         if($(this).hasClass('disabled') == false) {
@@ -83,15 +107,21 @@ function Build(z, c) {
             }
             else z=1;
             map[opAt.y][opAt.x] = blocks[1][z]+POTEZ*6;
+            
+            var anX=opAt.x;
+            var anY=opAt.y;
+            SEQ[0]=[11,12,13,14];
+            //An(anX, anY, SEQ[0], 3000); 
+            
             done(1, z);
         } else disMessage();
-        return;
-    });
+    }); 
 };
 function Conquer1(z, c) {
-    $("<div>").appendTo("#gameMenu");
+    $("<div>").appendTo("#gameMenu").addClass('menuEl');
     var item = $("#gameMenu div:first-child");
     var ind;
+    $("<div>").appendTo("#gameMenu div").addClass('coins');
     //Empty || castle || greenField
     if((z==0 && c>=1) || (z==1 && c>=3) || (z==2 && c>=1)) ind=0;
     else {
@@ -99,44 +129,61 @@ function Conquer1(z, c) {
         item.addClass("disabled");
     }
     
+    if(z==0 || z==2) item.children().text("1");
+    else if(z==1) item.children().text("3");
+    
     var castle;
     if(map[opAt.y][opAt.x]-!POTEZ*6 == 3) castle=0; //Lvl1 castle
     else castle=1;
     
     item.css('background-image', 'url('+imageUrl(stuff[3][ind])+')');
-
     item.click(function() {
         if(item.hasClass("disabled")==false) {
             if(z==1) map[opAt.y][opAt.x] = blocks[2][z][castle]+POTEZ*6;
-            else map[opAt.y][opAt.x] = blocks[2][z]+POTEZ*6;
+            else {
+                if(z==2 && map[opAt.y][opAt.x]-!POTEZ*6 == 6) { //Opponent's gF
+                    grF[POTEZ]+=1;
+                    if(POTEZ) grF[0]-=1;
+                    else grF[1]-=1;
+                } else if(z==2) { //Empty gF
+                    grF[POTEZ]+=1;
+                }
+                map[opAt.y][opAt.x] = blocks[2][z]+POTEZ*6;
+            }
             done(2, z);
         } else disMessage();
         return;
     });
 };
 function Conquer2(z, c) {
-    $("<div>").appendTo("#gameMenu");
+    $("<div>").appendTo("#gameMenu").addClass('menuEl');
     var item = $("#gameMenu div:first-child");
     var ind;
+    $("<div>").appendTo("#gameMenu div").addClass('coins');
     //Not protected || pr1 || pr2
     if((z==0 && c>=1) || (z==1 && c>=2) || (z==2 && c>=3)) ind=0;
     else {
         ind=1;
         item.addClass("disabled");
     }
+    
+    if(z==0) item.children().text("1");
+    else if(z==1) item.children().text("2");
+    else item.children().text("3");
+    
     var cur = map[opAt.y][opAt.x]-!POTEZ*6;
     var hut;
     if(cur==2 || cur==4) {
-        hut=Math.floor(cur/2);
+        hut=cur/2;
     } else hut=0;
     
     item.css('background-image', 'url('+imageUrl(stuff[3][ind])+')');
-
     item.click(function() {
         if(item.hasClass("disabled")==false) {
             map[opAt.y][opAt.x] = blocks[3][hut] + POTEZ*6;
             houses[POTEZ]+=hut;
-            houses[!POTEZ]-=hut;
+            if(POTEZ) houses[0]-=hut;
+            else houses[1]-=hut;
             done(3, z);
         } else disMessage();
         return;

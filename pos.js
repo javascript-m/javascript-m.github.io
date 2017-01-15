@@ -1,7 +1,3 @@
-function DisableScrollbars() {
-	document.documentElement.style.overflow = 'hidden';
-	document.body.scroll = "no";
-}
 function drawSq(x, y, lineW) {
     var context = game.getContext('2d');
     context.beginPath();
@@ -22,11 +18,12 @@ function showMenu(x, y, show) {
     }
     
     $("#gameMenu").css(cPos);
+    $("#gameMenu").children().remove();
     
     if(show) {
-        $('#gameMenu').show();
         var ajmoVidit = whatCanIDo(x, y);
         putInMenu(ajmoVidit);
+        $('#gameMenu').show();
     }
     else {
         opAt.x=-1; opAt.y=-1;

@@ -1,7 +1,7 @@
 /*GLAVNI ALGORITAM*/
 //U MAPU SVE OBRNUTO (y pa x)
 function insideBoard(x, y) {
-    return (x>=0 && x < 9 && y >=0 && y < 9);
+    return (x>=0 && x < mapSize && y >=0 && y < mapSize);
 }
 function whatCanIDo(x, y) {
     var nothing=true;
@@ -12,7 +12,7 @@ function whatCanIDo(x, y) {
     
     for(var i=0; i<5; i++) { //Za svaki od 4 okolna polja
         if(insideBoard(y+smY[i], x+smX[i])) {
-            for(var j=1; j<6; j++) {
+            for(var j=1; j<=6; j++) {
                 if(map[y+smY[i]][x+smX[i]]==j+6*POTEZ) {
                     nothing=false;
                     break;
@@ -21,8 +21,9 @@ function whatCanIDo(x, y) {
         }
         if(!nothing) break;
     }
-    
-    if(nothing) return 0; //YOU CAN'T PLAY HERE
+    if(nothing || (x==y && y==(mapSize-1)*POTEZ)) {
+        return 0; //YOU CAN'T PLAY HERE
+    };
     
     var here = map[y][x]-POTEZ*6;
     

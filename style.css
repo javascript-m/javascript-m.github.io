@@ -1,30 +1,18 @@
-/*Holders*/
 body {
     margin: 0;
     padding: 0;
-    background-image: url('bg.jpg');
+    background-image: url('bg2.png');
     background-size: cover;
 
     color: white;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Inconsolata", serif;
+    overflow-y: auto;
 }
 #content {
     height: 100%;
-    background: rgba(255, 255, 255, .2);
 }
 .sec {
     margin-bottom: 20px;
-}
-footer {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 0.5rem;
-    color: white;
-	text-align: center;
-    font-size: 0.8rem;
-	background-color: black;
 }
 /*Text*/
 h1, h3, p, li {
@@ -33,14 +21,12 @@ h1, h3, p, li {
     text-align: justify;
 }
 .hdl {
-    font-family: 'Signika', sans-serif;
     font-size: 35px;
 }
 #hdlMain {
-    font-size: 50px;
-    font-family: 'Signika', sans-serif;
-    text-align: center;
-    text-shadow: 1px 1px gray;
+    display:block;
+    margin: auto;
+    height: 70px;
 }
 /*Section #2-special for 3 columns*/
 #sec2 { /*Need for clmns*/
@@ -58,13 +44,21 @@ h1, h3, p, li {
 #story, #stats {
     padding: 15px;
     font-size: 20px;
-    height: 510px; /*Canvas height -2*padding*/
     
     -webkit-box-flex:1.0;
     -moz-box-flex:1.0;
     box-flex:1.0;
     
     width: 200px;
+}
+/*Story*/
+#story {
+    padding-top: 0px;
+}
+#story #stCont {
+    padding: 10px;
+    background-color: rgba(58,58,58, .8);
+    border: 1px solid black;
 }
 /*Table*/
 #stats table {
@@ -73,33 +67,28 @@ h1, h3, p, li {
 }
 #stats td, #stats th {
     border: 1px solid lightgray;
-    text-align: center;
     padding: 8px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    min-height: 20px;
+    min-width: 30px;
+}
+#stats td  {
+    background-color: rgba(58,58,58, .6);
 }
 #stats tr:first-child {
     cursor: pointer;
 }
 #stats tr:first-child:hover {
-    background-color: cornflowerblue;
+    background-color: rgba(58,58,58, 1);
 }
 .cost tr:first-child {
-    background-color: #273347;
+    background-color: black;
 }
 .current {
     border: 3px solid white;
 }
 .turn {
     font-weight: bolder;
-}
-#samoZaSad {
-    width: 100%;
-}
-#samoZaSad td {
-    text-align: center;
-    height: 50px;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: white;
-    color: black;
 }
