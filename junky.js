@@ -110,7 +110,7 @@ function Build(z, c) {
             
             var anX=opAt.x;
             var anY=opAt.y;
-            SEQ[0]=[11,12,13,14];
+            SEQ[0]=[16,17,18,19,20];
             //An(anX, anY, SEQ[0], 3000); 
             
             done(1, z);
@@ -139,6 +139,10 @@ function Conquer1(z, c) {
     item.css('background-image', 'url('+imageUrl(stuff[3][ind])+')');
     item.click(function() {
         if(item.hasClass("disabled")==false) {
+            var anX=opAt.x;
+            var anY=opAt.y;
+            SEQ[2]=[16,17,18,19,20];
+            An(anX, anY, SEQ[2], 1500);
             if(z==1) map[opAt.y][opAt.x] = blocks[2][z][castle]+POTEZ*6;
             else {
                 if(z==2 && map[opAt.y][opAt.x]-!POTEZ*6 == 6) { //Opponent's gF
@@ -180,6 +184,10 @@ function Conquer2(z, c) {
     item.css('background-image', 'url('+imageUrl(stuff[3][ind])+')');
     item.click(function() {
         if(item.hasClass("disabled")==false) {
+            var anX=opAt.x;
+            var anY=opAt.y;
+            SEQ[2]=[16,17,18,19,20];
+            An(anX, anY, SEQ[2], 1500);
             map[opAt.y][opAt.x] = blocks[3][hut] + POTEZ*6;
             houses[POTEZ]+=hut;
             if(POTEZ) houses[0]-=hut;
