@@ -167,6 +167,7 @@
 }
 #theRules div {
     position: relative;
+    cursor: default;
     padding: 0;
     margin: 0;
     overflow-x: hidden;
@@ -190,7 +191,6 @@
     display: inline;
 }
 #theRules div div .img {
-    background-color: blue;
     background-size: contain;
     background-repeat: no-repeat;
 }
