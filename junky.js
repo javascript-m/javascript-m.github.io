@@ -39,25 +39,10 @@ var stuff = [
     ["buHut", "buCastle", "dBuHut", "dBuCastle"], //Build //4
     ["Conquer","dConquer"]
 ];
-function An(x, y, seq, T) {
-    mapAnimate[y][x]=1;
-    setTimeout(function() {
-        mapAnimate[y][x]=0;
-    }, T);
-    var timer = setInterval(function() {
-        if(finished()) clearInterval(timer);
-        if(mapAnimate[y][x]) { //Zbog istrovremenih animacija
-            st1.draw(x*BLOCK, y*BLOCK, seq);
-        }
-        if(!mapAnimate[y][x]) clearInterval(timer);
-        MouseH();
-    },50);
-}
 function Cant(z, c) {
     $("<p>").appendTo("#gameMenu").text(stuff[0][z]);
 };
 function Upgrade(z, c) {
-    SEQ=0;
     $("<div>").appendTo("#gameMenu").addClass('menuEl');
     var item = $("#gameMenu div:first-child");
     $("<div>").appendTo("#gameMenu div").addClass('coins');
@@ -81,21 +66,22 @@ function Upgrade(z, c) {
     item.css('background-image', 'url('+imageUrl(stuff[1][ind])+')');
     item.click(function() {
         if(item.hasClass('disabled') == false) {
-            var anX=opAt.x;
-            var anY=opAt.y;
             if(z==0) {
                 houses[POTEZ]+=1;
-                SEQ=[21,22,23,24,25];
-            } //Dodaj else
-            An(anX, anY, SEQ, 1500); 
+                SEQ=[21,22,23,24];
+            } else SEQ=[26,27,28,29];
             map[opAt.y][opAt.x] = blocks[0][z] + POTEZ*6;
+            var an=[opAt.x, opAt.y];
+            mapAnimate[an[1]][an[0]]=SEQ;
+            setTimeout(function() {
+                mapAnimate[an[1]][an[0]]=0;
+            }, 2000);
             done(0, z);
         } else disMessage();
         return;
     });
 };
 function Build(z, c) {
-    SEQ=0;
     //var imageUrl = "Sprites/Menu/buHut.png";
     $("<div>").appendTo("#gameMenu").addClass('menuEl').addClass('h').css('background-image', 'url('+imageUrl(stuff[2][0])+')');
     $("<div>").appendTo("#gameMenu").addClass('menuEl').addClass('c').css('background-image', 'url('+imageUrl(stuff[2][1])+')');
@@ -108,8 +94,6 @@ function Build(z, c) {
     
     $('#gameMenu').children().click(function() {
         if($(this).hasClass('disabled') == false) {
-            var anX=opAt.x;
-            var anY=opAt.y;
             if($(this).hasClass('h')) {
                 houses[POTEZ]+=1;
                 z=0;
@@ -117,18 +101,19 @@ function Build(z, c) {
             } 
             else {
                 z=1;
-                SEQ=[26,27,28,29,30];
+                SEQ=[26,27,28,29];
             }
             map[opAt.y][opAt.x] = blocks[1][z]+POTEZ*6;
-            
-            An(anX, anY, SEQ, 1500); 
-            
+            var an=[opAt.x, opAt.y];
+            mapAnimate[an[1]][an[0]]=SEQ;
+            setTimeout(function() {
+                mapAnimate[an[1]][an[0]]=0;
+            }, 2000);
             done(1, z);
         } else disMessage();
     }); 
 };
 function Conquer1(z, c) {
-    SEQ=0;
     $("<div>").appendTo("#gameMenu").addClass('menuEl');
     var item = $("#gameMenu div:first-child");
     var ind;
@@ -150,10 +135,6 @@ function Conquer1(z, c) {
     item.css('background-image', 'url('+imageUrl(stuff[3][ind])+')');
     item.click(function() {
         if(item.hasClass("disabled")==false) {
-            var anX=opAt.x;
-            var anY=opAt.y;
-            SEQ=[16,17,18,19,20];
-            An(anX, anY, SEQ, 1000);
             if(z==1) map[opAt.y][opAt.x] = blocks[2][z][castle]+POTEZ*6;
             else {
                 if(z==2 && map[opAt.y][opAt.x]-!POTEZ*6 == 6) { //Opponent's gF
@@ -165,13 +146,18 @@ function Conquer1(z, c) {
                 }
                 map[opAt.y][opAt.x] = blocks[2][z]+POTEZ*6;
             }
+            SEQ=[16,17,18,19];
+            var an=[opAt.x, opAt.y];
+            mapAnimate[an[1]][an[0]]=SEQ;
+            setTimeout(function() {
+                mapAnimate[an[1]][an[0]]=0;
+            }, 2000);
             done(2, z);
         } else disMessage();
         return;
     });
 };
 function Conquer2(z, c) {
-    SEQ=0;
     $("<div>").appendTo("#gameMenu").addClass('menuEl');
     var item = $("#gameMenu div:first-child");
     var ind;
@@ -196,14 +182,17 @@ function Conquer2(z, c) {
     item.css('background-image', 'url('+imageUrl(stuff[3][ind])+')');
     item.click(function() {
         if(item.hasClass("disabled")==false) {
-            var anX=opAt.x;
-            var anY=opAt.y;
-            SEQ=[16,17,18,19,20];
-            An(anX, anY, SEQ, 1000);
             map[opAt.y][opAt.x] = blocks[3][hut] + POTEZ*6;
             houses[POTEZ]+=hut;
             if(POTEZ) houses[0]-=hut;
             else houses[1]-=hut;
+            SEQ=[16,17,18,19];
+            map[opAt.y][opAt.x] = blocks[3][hut] + POTEZ*6;
+            var an=[opAt.x, opAt.y];
+            mapAnimate[an[1]][an[0]]=SEQ;
+            setTimeout(function() {
+                mapAnimate[an[1]][an[0]]=0;
+            }, 2000);
             done(3, z);
         } else disMessage();
         return;

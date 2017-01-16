@@ -123,8 +123,8 @@
 }
 #message {
     display: block;
-    font-size: 15px;
-    color: #b70000;
+    font-size: 20px;
+    color: white;
     background-color: transparent;
     border: none;
 }
@@ -150,7 +150,7 @@
 #theRules h3, #settings h3 {
     margin-top: 5px;
     text-align: center;
-    font-size: 40px;
+    font-size: 45px;
 }
 #theRules {
     font-family: 'Inconsolata', monospace;
@@ -204,6 +204,7 @@
 }
 #theRules th, #theRules td {
     border: 1px solid white;
+    padding: 5px;
     margin: 0;
     background-position: center;
     background-size: contain;

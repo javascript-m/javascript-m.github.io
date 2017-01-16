@@ -21,7 +21,8 @@ function whatCanIDo(x, y) {
         }
         if(!nothing) break;
     }
-    if(nothing || (x==y && y==(mapSize-1)*POTEZ)) {
+    
+    if(nothing || (x==y && y==(mapSize-1)*POTEZ) || ($.isNumeric(map[y][x])==false)) {
         return 0; //YOU CAN'T PLAY HERE
     };
     

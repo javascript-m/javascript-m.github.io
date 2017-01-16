@@ -8,4 +8,8 @@ $(document).ready(function() {
         $(this).children('tr:first').addClass('current');
         $(this).children('.cont').show();
       });
+    
+    $("input").on("keydown", function (e) {
+        return e.which !== 32;
+    });
 });

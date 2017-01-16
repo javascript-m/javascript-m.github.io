@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url('bg2.png');
+    background-image: url('Sprites/bg.png');
     background-size: cover;
 
     color: white;
@@ -71,7 +71,7 @@ h1, h3, p, li {
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
-    min-height: 20px;
+    height: 40px;
     min-width: 30px;
 }
 #stats td  {

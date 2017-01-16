@@ -1,36 +1,39 @@
 var Sprite = function(fn) {
     this.load = function(filename) { this.image = new Image(); this.image.src = filename; return this; };
 	
-    // Load from sprite
-    if (fn != undefined && fn != "" && fn != null) {
+    this.image=null;
+    this.spritesheet=null;
+    
+    if(fn instanceof Spritesheet) {
+        this.spritesheet=fn;
+        this.image=this.spritesheet.image;
+    }
+    else if (fn != undefined && fn != "" && fn != null) { //Load from sprite
         this.load(fn);
     }
-
+    //Overlapping functions C++
     this.draw = function(x, y, various) {
-		if(various == undefined) {
+		if(various == undefined) { //Normal sprite, various is not passed
 			Context.context.drawImage(this.image, x, y, BLOCK, BLOCK);
-		} 
-		//If various is a single numeric frame ID (npr. 17)
+		} //If various is a single numeric frame ID (exp. 17)
 		else if($.isNumeric(various) && various >= 0) {
-			var res = i2xy(various, 8);
+			var res = i2xy(various, 8); //Uzmi x i y pozicije
 			Context.context.drawImage(this.image, res[0]*BLOCK, res[1]*BLOCK, BLOCK, BLOCK, x, y, BLOCK, BLOCK);
-		}
-		//If  various is an Animation sequence (npr. [12,13,14,15]) /*OVO TREBA ZNAT OBJASNIT*/
+		} //If  various is an Animation sequence (exp. [12,13,14,15])
 		else if(various.length != undefined && various.length > 0) {
-            if(AnimationCounter[AnimationIndexCounter].animationDelay++ >= 3) { //Ovaj animation delay jos nisam sig sta znaci
-                AnimationCounter[AnimationIndexCounter].animationDelay = 0; //Pojasni si ovo
-				AnimationCounter[AnimationIndexCounter].animationIndexCounter++; //Idemo na sljedecu slicicu
-				if(AnimationCounter[AnimationIndexCounter].animationIndexCounter >= various.length) { //Gleda je li trenutna slicica u arrayu
-					AnimationCounter[AnimationIndexCounter].animationIndexCounter = 0;
+            if(AnimationCounter[AnimationCounterIndex].animationDelay++ >= 4) { //Animation delay usporava stvar
+                AnimationCounter[AnimationCounterIndex].animationDelay = 0;
+				AnimationCounter[AnimationCounterIndex].animationIndexCounter++; //Idemo na sljedecu slicicu
+				if(AnimationCounter[AnimationCounterIndex].animationIndexCounter >= various.length) { //Gleda je li trenutna slicica u arrayu
+					AnimationCounter[AnimationCounterIndex].animationIndexCounter = 0;
 				}
-				AnimationCounter[AnimationIndexCounter].animationCurrentFrame = various[AnimationCounter[AnimationIndexCounter].animationIndexCounter]; //Uzme broj trenutne slicice
-			}
+				AnimationCounter[AnimationCounterIndex].animationCurrentFrame = various[AnimationCounter[AnimationCounterIndex].animationIndexCounter]; //Uzme broj trenutne slicice
+            }
+            AnimationCounter[AnimationCounterIndex].animationCurrentFrame = various[AnimationCounter[AnimationCounterIndex].animationIndexCounter];
+			var res = i2xy(AnimationCounter[AnimationCounterIndex].animationCurrentFrame, 8);
+			Context.context.drawImage(this.image, res[0]*BLOCK, res[1]*BLOCK, BLOCK, BLOCK, x, y, BLOCK, BLOCK); 
 		
-			var res = i2xy(AnimationCounter[AnimationIndexCounter].animationCurrentFrame, 8); //Nadi x, y,  od slicice (tj broj polja u mrezi)
-		
-			Context.context.drawImage(this.image, res[0]*BLOCK, res[1]*BLOCK, BLOCK, BLOCK, x, y, BLOCK, BLOCK); //Nacrtaj slicicu
-			
-			AnimationIndexCounter++;
-		}
+            AnimationCounterIndex++;
+        }
 	}
 };

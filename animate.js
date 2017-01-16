@@ -4,7 +4,7 @@ var Animate = function(animationDelay, animationIndexCounter, animationCurrentFr
 	this.animationCurrentFrame = animationCurrentFrame;
 }
 
-var AnimationIndexCounter = 0;
+var AnimationCounterIndex = 0; //Increases when a new animated sprite is added
 var AnimationCounter = new Array();
 
 function InitializeAnimationCounters () {
@@ -14,5 +14,5 @@ function InitializeAnimationCounters () {
 };
 
 function ResetAnimationCounter() {
-	AnimationIndexCounter = 0;
+	AnimationCounterIndex = 0;
 }
