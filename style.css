@@ -1,6 +1,11 @@
 @font-face {
     font-family: ringbearer;
     src: url('ringbearer.ttf');
+    src: url('ringbearer.eot');
+    src: url('ringbearer.eot?#iefix') format('embedded-opentype'),
+     url('ringbearer.woff') format('woff'),
+     url('ringbearer.ttf') format('truetype'),
+     url('ringbearer.svg#triplexlight') format('svg')
 }
 body {
     margin: 0;
