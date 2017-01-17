@@ -1,7 +1,6 @@
 @font-face {
     font-family: 'ringb';
-    src: url('Fonts/ringbearer.otf') format('otf'), 
-         url('Fonts/ringbearer.svg') format('svg'), 
+    src: url('Fonts/ringbearer.woff'),
          url('Fonts/ringbearer.ttf') format('truetype');
 }
 body {
