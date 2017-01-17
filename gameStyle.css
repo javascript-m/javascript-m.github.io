@@ -27,20 +27,28 @@
 #navBar div div {
     text-align: center;
 }
-#navBar #time, #navBar #exit {
+#navBar #player1, #navBar #player2 {
+    font-size: 18px;
+    margin-top: 10px;
+    padding: 3px;
+}
+#navBar #time {
     width: 80%;
 }
 #navBar #time {
     float: left;
 }
-#navBar #exit {
+#navBar #pass, #navBar #exit, #navBar #surrender {
     float: right;
+    padding: 2px;
+    margin: 5px auto;
+    margin-right: 20px;
     cursor: pointer;
-    background-color: black;
+    background-color: #101010;
     border: 1px solid lightgray;
-    width: 80%;
+    width: 70%;
 }
-#navBar #exit:hover {
+#navBar #pass:hover, #navBar #exit:hover,#navBar #surrender:hover {
     background-color: rgba(58,58,58,1);
 }
 #navBar #plCont div {
@@ -94,7 +102,7 @@
     text-align: center;
 }
 #startMenu div {
-    width: 150px;
+    width: 180px;
 }
 #startMenu div:first-child {
     margin-bottom: 50px;
@@ -128,8 +136,16 @@
     background-color: transparent;
     border: none;
 }
-#gameOver h1, #gameOver h3 {
+#areYouSure {
     text-align: center;
+}
+#gameOver h1, #gameOver h3, #areYouSure h1 {
+    text-align: center;
+}
+#areYouSure div {
+    padding: 7px;
+    font-size: 25px;
+    display: inline-block;
 }
 /*The Rules*/
 #settings {

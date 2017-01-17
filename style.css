@@ -1,3 +1,7 @@
+@font-face {
+    font-family: ringbearer;
+    src: url('ringbearer.ttf');
+}
 body {
     margin: 0;
     padding: 0;
@@ -5,8 +9,8 @@ body {
     background-size: cover;
 
     color: white;
-    font-family: "Inconsolata", serif;
-    overflow-y: auto;
+    font-family: ringbearer, serif;
+    overflow-y: hidden;
 }
 #content {
     height: 100%;
@@ -26,7 +30,7 @@ h1, h3, p, li {
 #hdlMain {
     display:block;
     margin: auto;
-    height: 70px;
+    height: 60px;
 }
 /*Section #2-special for 3 columns*/
 #sec2 { /*Need for clmns*/

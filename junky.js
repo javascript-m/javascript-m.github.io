@@ -4,6 +4,13 @@ function updateTable() {
     $('#coins2').text(coins[1]);
     $('#cNR1').text(houses[0]);
     $('#cNR2').text(houses[1]);
+    
+    $('#player1').html($("#p1").text());
+    $('#player2').html($("#p2").text());
+    
+    
+    if(POTEZ) $('#player2').html($("#p2").text()+"<br /> coins: "+coins[1]);
+    else $('#player1').html($("#p1").text()+"<br /> coins: "+coins[0]);
 };
 function done(i, z) {
     coins[POTEZ]-=price[i][z];

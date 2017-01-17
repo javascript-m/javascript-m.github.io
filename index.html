@@ -57,7 +57,8 @@
 			DisableScrollbars();
             InitializeAnimationCounters();
             //InitializeGame();//Remove this
-            //$('#startMenu').hide();//And this
+            //$('#startMenu, #theRules, #gameOver, #playerNames').hide();//And this
+            //$("#areYouSure").show();
             GameStart();
         });
 	</script>
@@ -83,14 +84,16 @@
         <div id="canvasCont" class="unselectable">
             <div id="navBar">
                 <div class="inL">
-                    <div id="time">Time:</div>
+                    <div id="pass">PASS</div>
+                    <div id="surrender">SURRENDER</div>
                 </div>
                 <div id="plCont">
-                    <div>Computer</div>
-                    <div>VS</div>
-                    <div>Player #2</div>
+                    <div id="player1">Computer</div>
+                    <div style="padding: 5px;">VS</div>
+                    <div id="player2">Player #2</div>
                 </div>
                 <div class="inL">
+                    <div id="time">Time:</div>
                     <div id="exit">Exit</div>
                 </div>
             </div>
@@ -122,7 +125,7 @@
             <div id="gameMenu"></div>
             <div id="theRules" class="hm onCanvasI">
                 <div>
-                    <h3>The Rules</h3>
+                    <h3 style="font-family: ringbearer;">The Rules</h3>
                     <div>
                         <div class="img" style="float: right; background-image: url('Sprites/TheRules/sl1.png'); height: 220px; width: 200px;"></div>
                         <div class="txt">In the beginning each player has got a throne on the opposite sides of the world. Player #1 is red, Player #2  is blue. The battlefield is two-dimensional board divided in 8x8 fields. <br>
@@ -196,20 +199,25 @@
                             <em><strong>Note: </strong>Green fields can't be protected by castles!</em>
                         </div>
                     </div>
-                    <div>Play!</div>
+                    <div style="font-family: ringbearer;">Play!</div>
                 </div>
             </div>
             <div id="settings">
                 <h3>Settings</h3>
                 <div style="margin-top: 10px;">Tu jos uvijek nema nista, ali jednoga dana kad turizam procvjeta bit ce!</div>
             </div>
+            <div id="areYouSure" class="hm onCanvasI" style="display: none">
+                <h1>Are you sure you want to surrender?</h1>
+                <div>Surrender</div>
+                <div>Continue playing</div>
+            </div>
         </div>
         <div id="stats">
-            <table style='margin-bottom: 10px;'>
+            <table style='cursor: default; margin-bottom: 10px;'>
             <tr>
-                <th style="background-color: black;">Name</th>
-                <td id="p1" style="background-color: #b70000;">Player #1</td>
-                <td id="p2" style="background-color: #0006b7;">Player #2</td>
+                <th style="cursor: default; background-color: black;">Name</th>
+                <td id="p1" style="cursor: default; background-color: #b70000;">Player #1</td>
+                <td id="p2" style="cursor: default; background-color: #0006b7;">Player #2</td>
             </tr>
             <tr>
                 <td>Coins</td>

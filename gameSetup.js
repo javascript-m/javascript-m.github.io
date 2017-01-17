@@ -1,11 +1,7 @@
 var interval;
-function coinCount() {
-    coins[0] = 3+Math.floor(houses[0]/3);
-    coins[1] = 3+Math.floor(houses[1]/3);
-    
-    coins[0]+=grF[0];
-    coins[1]+=grF[1];
-    
+function coinCount(pot) {
+    coins[pot]=3+Math.floor(houses[pot]/3)+grF[pot];
+
     updateTable();
 };
 function whoIsPlaying(w) {
@@ -19,8 +15,8 @@ function gameOver() {
     clearInterval(interval);
     opAt.x=-1; opAt.y=-1;
         
-    if(POTEZ) $('#gameOver #whoWon').text($("#navBar #plCont div:nth-child(3)").text()+" won!");
-    else $('#gameOver #whoWon').text($("#navBar #plCont div:nth-child(1)").text()+" won!");
+    if(POTEZ) $('#gameOver #whoWon').text($("#p1").text()+" won!");
+    else $('#gameOver #whoWon').text($("#p2").text()+" won!");
     $('#gameOver').show();
 
     $('#gameOver div:last-child').click(function() {
@@ -29,6 +25,7 @@ function gameOver() {
     });
 };
 function InitializeGame() {
+    var roundOne=1;
     POTEZ=0;
     coins[0]=3;
     coins[1]=4;
@@ -45,7 +42,7 @@ function InitializeGame() {
             [0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,9],
+            [0,0,0,0,0,0,0,0],
             [13,0,0,0,0,0,0,7]  ];
     
     mapAnimate = [  [0,0,0,0,0,0,0,0],
@@ -61,6 +58,11 @@ function InitializeGame() {
         t: 60,
         track: 0
     }
+    $('#pass').click(function() {
+        TIME.t=0;
+        TIME.track=0;
+        $("#gameMenu").hide();
+    });
     Mouse();
     interval = setInterval(function() {
         ResetAnimationCounter();
@@ -77,9 +79,12 @@ function InitializeGame() {
             if(POTEZ) POTEZ=0;
             else POTEZ=1;
             
+            if(!roundOne) coinCount(POTEZ);
+            else updateTable();
+            
+            if(POTEZ) roundOne=0;
             whoIsPlaying(POTEZ);
             
-            if(POTEZ==0) coinCount();
             putInMenu(whatCanIDo(opAt.y, opAt.y));
         }
     }, 50);
@@ -157,5 +162,16 @@ function GameStart() {
         opAt.x=-1; opAt.y=-1;
         $('#startMenu').show();
         GameStart();
+    });
+    $('#surrender').click(function() {
+        $("#areYouSure").show();
+    });
+    $('#areYouSure div:nth-child(2)').click(function() {
+       //Surrender! 
+        $("#areYouSure").hide();
+        gameOver();
+    });
+    $('#areYouSure div:nth-child(3)').click(function() {
+       $("#areYouSure").hide();
     });
 }
