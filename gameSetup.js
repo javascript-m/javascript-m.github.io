@@ -163,7 +163,6 @@ function GameStart() {
         $('#startMenu').show();
         GameStart();
     });
-<<<<<<< HEAD
     $('#surrender').click(function() {
         $("#areYouSure").show();
     });
@@ -176,6 +175,3 @@ function GameStart() {
        $("#areYouSure").hide();
     });
 }
-=======
-}
->>>>>>> 814cbc90d026de8d66e25dc079d13fd12088d41f
