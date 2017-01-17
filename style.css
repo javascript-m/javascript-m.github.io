@@ -1,6 +1,12 @@
 @font-face {
     font-family: ringbearer;
-    src: url('ringbearer.ttf');
+    src: url('Fonts/ringbearer.eot');
+    src: url('Fonts/ringbearer.eot?#iefix') format('embedded-opentype'),
+            url('Fonts/ringbearer.woff') format('woff'),
+            url('Fonts/ringbearer.ttf') format('truetype'),
+            url('Fonts/ringbearer.svg#my-font') format('svg');
+    font-weight:normal;
+    font-style:normal;
 }
 body {
     margin: 0;
