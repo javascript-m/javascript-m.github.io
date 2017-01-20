@@ -30,6 +30,7 @@ function InitializeGame() {
     coins[0]=3;
     coins[1]=4;
     houses = [0,0];
+    grF=[0,0];
     /*Prima parametar je li SP ili MP*/
     $('#navBar').show();
     var xPos=0; var yPos=0;
