@@ -15,21 +15,28 @@ function gameOver() {
     clearInterval(interval);
     opAt.x=-1; opAt.y=-1;
         
-    if(POTEZ) $('#gameOver #whoWon').text($("#p1").text()+" won!");
+    if(map[mapSize-1][mapSize-1]==1) $('#gameOver #whoWon').text($("#p1").text()+" won!");
     else $('#gameOver #whoWon').text($("#p2").text()+" won!");
+    
     $('#gameOver').show();
-
     $('#gameOver div:last-child').click(function() {
         RemoveEventListeners();
         GameStart();
     });
 };
+var TIME = { //For timer
+    t: 60,
+    track: 0
+}
 function InitializeGame() {
     var roundOne=1;
     POTEZ=0;
     coins[0]=3;
     coins[1]=4;
     houses = [0,0];
+    grF=[0,0];
+    TIME.t=60;
+    TIME.track=0;
     /*Prima parametar je li SP ili MP*/
     $('#navBar').show();
     var xPos=0; var yPos=0;
@@ -54,15 +61,6 @@ function InitializeGame() {
                     [0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0]  ];
     
-    var TIME = {
-        t: 60,
-        track: 0
-    }
-    $('#pass').click(function() {
-        TIME.t=0;
-        TIME.track=0;
-        $("#gameMenu").hide();
-    });
     Mouse();
     interval = setInterval(function() {
         ResetAnimationCounter();
@@ -106,33 +104,11 @@ function stickNames(p1, p2) {
     $('#plCont div:nth-child(1)').text(p1);
     $('#plCont div:nth-child(3)').text(p2);
 }
-function GameStart() {
-    clearInterval(interval);
-    
-    $('#playerMode').hide();
-    $('#playerNames').hide();
-    $('#navBar').hide();
-    $('#gameMenu').hide();
-    $('#gameOver').hide();
-    $('#theRules').hide();
-    $('#settings').hide();
-    $('#startMenu').show();
-    
+function clicked() {
     $('#startMenu div:first-child').click(function() {
         $('#startMenu').hide();
         $('#playerNames').show();
     });
-    /*Player Mode*/
-    /*
-    $('#playerMode .pNum').click(function() {
-        $('.pNum').removeClass('active');
-        $(this).addClass('active');
-    });
-    $('#playerMode div:last-child').click(function() {
-        $('#playerMode').hide();
-        $('#playerNames').show();
-    });*/
-    //Enter Names
     $('#playerNames div:last-child').click(function() {
         var p1=document.getElementById('pOne').value;
         var p2=document.getElementById('pTwo').value;
@@ -143,7 +119,6 @@ function GameStart() {
             InitializeGame();
         }
     });
-    /*The Rules*/
     $('#startMenu div:nth-child(2)').click(function() {
        $('#theRules').show(); 
     });
@@ -168,10 +143,40 @@ function GameStart() {
     });
     $('#areYouSure div:nth-child(2)').click(function() {
        //Surrender! 
+        map[POTEZ*7][POTEZ*7]=1+!POTEZ*6;
         $("#areYouSure").hide();
         gameOver();
     });
     $('#areYouSure div:nth-child(3)').click(function() {
        $("#areYouSure").hide();
     });
+    $('#pass').click(function() {
+        TIME.t=0;
+        TIME.track=0;
+        $("#gameMenu").hide();
+    });
+}
+function GameStart() {
+    clearInterval(interval);
+    
+    $('#playerMode').hide();
+    $('#playerNames').hide();
+    $('#navBar').hide();
+    $('#gameMenu').hide();
+    $('#gameOver').hide();
+    $('#theRules').hide();
+    $('#settings').hide();
+    $('#startMenu').show();
+    
+    
+    /*Player Mode*/
+    /*
+    $('#playerMode .pNum').click(function() {
+        $('.pNum').removeClass('active');
+        $(this).addClass('active');
+    });
+    $('#playerMode div:last-child').click(function() {
+        $('#playerMode').hide();
+        $('#playerNames').show();
+    });*/  
 }
