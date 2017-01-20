@@ -35,16 +35,12 @@ function InitializeGame() {
     coins[1]=4;
     houses = [0,0];
     grF=[0,0];
-<<<<<<< HEAD
     TIME.t=60;
     TIME.track=0;
-=======
->>>>>>> ef961b19cd67850d6ff85b09a6822e0ad467e04c
     /*Prima parametar je li SP ili MP*/
     $('#navBar').show();
     var xPos=0; var yPos=0;
     updateTable();
-    alert(coins[0]+','+coins[1]+';'+houses[0]+','+houses[1]+';'+grF[0]+','+grF[1]);
     whoIsPlaying(POTEZ);
     /*Define a map*/
     map = [ [1,0,0,0,0,0,0,13],
@@ -154,7 +150,6 @@ function clicked() {
     $('#areYouSure div:nth-child(3)').click(function() {
        $("#areYouSure").hide();
     });
-<<<<<<< HEAD
     $('#pass').click(function() {
         TIME.t=0;
         TIME.track=0;
@@ -185,6 +180,3 @@ function GameStart() {
         $('#playerNames').show();
     });*/  
 }
-=======
-}
->>>>>>> ef961b19cd67850d6ff85b09a6822e0ad467e04c
