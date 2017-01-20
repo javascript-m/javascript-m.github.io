@@ -35,6 +35,7 @@ function InitializeGame() {
     $('#navBar').show();
     var xPos=0; var yPos=0;
     updateTable();
+    alert(coins[0]+','+coins[1]+';'+houses[0]+','+houses[1]+';'+grF[0]+','+grF[1]);
     whoIsPlaying(POTEZ);
     /*Define a map*/
     map = [ [1,0,0,0,0,0,0,13],
