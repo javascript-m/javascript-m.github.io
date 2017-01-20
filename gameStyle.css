@@ -148,27 +148,12 @@
     display: inline-block;
 }
 /*The Rules*/
-#settings {
-    position: absolute;
-    text-align: justify;
-    margin-top: 20px;
-    width: 500px;
-    height: 536px; /*Canvas height-2*20px*/
-    background-color: rgba(15,15,15,1);
-    padding: 5px;
-    overflow-y: auto;
-    border-radius: 5px;
-}
-#settings {
-    margin-top: 100px;
-    height: 350px;
-}
 #theRules h3, #settings h3 {
     margin-top: 5px;
     text-align: center;
     font-size: 45px;
 }
-#theRules {
+#theRules, #settings {
     font-family: 'Inconsolata', monospace;
     font-size: 15px;
     cursor: default;
@@ -181,7 +166,7 @@
     width: 556px;
     height: 556px;
 }
-#theRules div {
+#theRules div, #settings div {
     position: relative;
     cursor: default;
     padding: 0;
@@ -193,7 +178,7 @@
     background-color: rgba(15,15,15,1);
     border-radius: 5px;
 }
-#theRules div div {
+#theRules div div, #settings div div {
     width: 500px;
     height: auto;
     margin: 5px auto;
@@ -201,7 +186,7 @@
     border: none;
     color: white;
 }
-#theRules div div div {
+#theRules div div div, #settings div div div {
     font-size: 20px;
     margin: 5px;
     display: inline;
@@ -229,7 +214,7 @@
     height: 40px;
     max-height: 40px;
 }
-#theRules div:nth-child(7) {
+#theRules div:nth-child(7), #settings div div:last-child  {
     margin: 5px auto;
     cursor: pointer;
     padding: 10px 20px;
@@ -239,8 +224,32 @@
     border: 3px solid lightgray;
     width: 100px;
 }
-#theRules div:nth-child(7):hover {
+#theRules div:nth-child(7):hover, #settings div div:last-child:hover {
     background-color: rgba(58,58,58,1);
+}
+/*Settings*/
+#settings div div {
+    padding: 10px;
+}
+#settings button {
+    outline: none;
+    border: none;
+    height: 30px; width: 30px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-color: transparent;
+}
+#settings #playbtn {
+    background-image: url("Music/Bg/speaker.png");
+}
+#settings input, #settings button {
+    display: inline-block;
+    background-color: transparent;
+    padding: 5px;
+}
+#settings input {
+    width: 300px;
 }
 /*Game Menu*/
 #gameMenu {

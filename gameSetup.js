@@ -104,7 +104,7 @@ function stickNames(p1, p2) {
     $('#plCont div:nth-child(1)').text(p1);
     $('#plCont div:nth-child(3)').text(p2);
 }
-function clicked() {
+function Clicked() {
     $('#startMenu div:first-child').click(function() {
         $('#startMenu').hide();
         $('#playerNames').show();
@@ -131,6 +131,10 @@ function clicked() {
     $('.settings').click(function() {
         $('#settings').show();
     });
+    $('#settings div div:last-child').click(function() {
+        $('#settings').hide();
+    });
+    /*Exit*/
     $('#exit').click(function() {
         RemoveEventListeners();
         clearInterval(interval);

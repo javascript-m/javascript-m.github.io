@@ -6,10 +6,11 @@
     
 	<!--Basic-->
     <script src="jquery.js" type="text/javascript"></script>
-	
+	<link rel="stylesheet" href="volumeRangeStyle.css">
     <link rel="stylesheet" href="gameStyle.css">
     
     <!--Map-->
+    <script src="audio.js" type="text/javascript"></script>
     <script src="utility.js" type="text/javascript"></script>
     <script src="animate.js" type="text/javascript"></script>
     <script src="spritesheet.js" type="text/javascript"></script>
@@ -55,18 +56,24 @@
 		$(document).ready(function() {
 			Context = new HTML("game", SIZE, SIZE);
 			DisableScrollbars();
-            clicked();
+            Clicked();
             InitializeAnimationCounters();
-            //InitializeGame();//Remove this
-            //$('#startMenu, #theRules, #gameOver, #playerNames').hide();//And this
-            //$("#areYouSure").show();
+            RunAudio();
             GameStart();
+            
+            //InitializeGame();//Remove this
+            //$('#areYouSure, #startMenu, #theRules, #gameOver, #playerNames').hide();//And this
+            //$("#settings").show();
+            
+        });
+        window.load(function() {
+            
         });
 	</script>
 	
 </head>
 <body>
-<div id="content">   
+<div id="content">
     <div class="sec"> <!--Section #1-->
         <img class="unselectable" id="hdlMain" src="Sprites/Naslov.png"/>
     </div>
@@ -113,8 +120,8 @@
             </div>-->
             <div id="playerNames" class="hm onCanvasI">
                 <div><!--STEP #2:-->Player names</div>
-                <input id="pOne" class="plInput" type="text" maxlength="10" placeholder="Player one" />
-                <input id="pTwo" class="plInput" type="text" maxlength="10" placeholder="Player two" />
+                <input id="pOne" class="plInput" type="text" maxlength="7" placeholder="Player one" />
+                <input id="pTwo" class="plInput" type="text" maxlength="7" placeholder="Player two" />
                 <div style='display: block' id='message'></div>
                 <div>Go!</div>
             </div>
@@ -127,7 +134,7 @@
             <div id="gameMenu"></div>
             <div id="theRules" class="hm onCanvasI">
                 <div>
-                    <h3 style="font-family: ringbearer;">The Rules</h3>
+                    <h3 style="font-family: 'ringb';">The Rules</h3>
                     <div>
                         <div class="img" style="float: right; background-image: url('Sprites/TheRules/sl1.png'); height: 220px; width: 200px;"></div>
                         <div class="txt">In the beginning each player has got a throne on the opposite sides of the world. Player #1 is red, Player #2  is blue. The battlefield is two-dimensional board divided in 8x8 fields. <br>
@@ -201,12 +208,19 @@
                             <em><strong>Note: </strong>Green fields can't be protected by castles!</em>
                         </div>
                     </div>
-                    <div style="font-family: ringbearer;">Play!</div>
+                    <div style="font-family: 'ringb';">Play!</div>
                 </div>
             </div>
-            <div id="settings">
-                <h3>Settings</h3>
-                <div style="margin-top: 10px;">Tu jos uvijek nema nista, ali jednoga dana kad turizam procvjeta bit ce!</div>
+            <div id="settings" class="hm onCanvasI">
+                <div>
+                    <h3 style="font-family: 'ringb'; margin-top: 80px; margin-bottom: 20px;">Settings</h3>
+                    <div>
+                        <div>Music: </div>
+                        <button id="playbtn"></button>
+                        <input id="volumebar" type="range" min="0" max="100" value="50" step="1">
+                    </div>
+                    <div style="font-family: 'ringb'; margin-top: 10px;">Back to menu</div>
+                </div>
             </div>
             <div id="areYouSure" class="hm onCanvasI" style="display: none">
                 <h1>Are you sure you want to surrender?</h1>
