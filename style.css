@@ -1,7 +1,11 @@
 @font-face {
     font-family: 'ringb';
     src: url('Fonts/ringbearer.woff'),
+<<<<<<< HEAD
          url('Fonts/ringbearer.ttf');
+=======
+         url('Fonts/ringbearer.ttf') format('truetype');
+>>>>>>> ef961b19cd67850d6ff85b09a6822e0ad467e04c
 }
 body {
     margin: 0;
