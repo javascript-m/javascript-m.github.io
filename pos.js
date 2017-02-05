@@ -16,13 +16,16 @@ function showMenu(x, y, show) {
         left: offset.left + x*BLOCK + 20,
         top: offset.top + y*BLOCK - 50
     }
-    
     $("#gameMenu").css(cPos);
     $("#gameMenu").children().remove();
     
     if(show) {
-        var ajmoVidit = whatCanIDo(x, y);
-        putInMenu(ajmoVidit);
+        if(SP==1 && POTEZ==1){
+            putInMenu(computerThinks(x, y));
+        } else {
+            var ajmoVidit = whatCanIDo(x, y);
+            putInMenu(ajmoVidit);
+        }
         $('#gameMenu').show();
     }
     else {

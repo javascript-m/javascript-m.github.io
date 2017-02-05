@@ -1,18 +1,245 @@
+var smX = [0,1,0,-1,0];
+var smY = [-1,0,1,0,0]
+var casSmX = [-1,-1,-1,0,0,1,1,1];
+var casSmY = [-1,0,1,-1,1,-1,0,1];
 /*GLAVNI ALGORITAM*/
 //U MAPU SVE OBRNUTO (y pa x)
 function insideBoard(x, y) {
     return (x>=0 && x < mapSize && y >=0 && y < mapSize);
 }
+function computerThinks(x, y) {
+    return 0;
+}
+String.prototype.replaceAt=function(index, character) {
+    return this.substr(0, index) + character + this.substr(index+character.length);
+}
+function computerMove() {
+    //Fja koja vraca niz parova tj niz poteza koje komp mora odigrat // xPos, yPos
+    var KOMB_COUNT=0;
+    var vrPloce;
+    var mapa="0000000000000000000000000000000000000000000000000000000000000000"; //Dodaj u mapu
+    var posjed="0000000000000000000000000000000000000000000000000000000000000000";
+    var potez=new Array();
+    var result=new Array();
+    result[0]=-1;
+    var money=4;
+    function updateMapPotez() {
+        for(var i=0; i<8; i++) {
+            for(var j=0; j<8; j++) {
+                if(map[i][j]==1) {
+                    mapa = mapa.replaceAt(8*i+j, "1");
+                    posjed = posjed.replaceAt(8*i+j, "2");
+                } else if(map[i][j]==2) {
+                    mapa = mapa.replaceAt(8*i+j, "2");
+                    posjed = posjed.replaceAt(8*i+j, "2");
+                } else if(map[i][j]==3) {
+                    mapa = mapa.replaceAt(8*i+j, "3");
+                    posjed = posjed.replaceAt(8*i+j, "2");
+                } else if(map[i][j]==4) {
+                    mapa = mapa.replaceAt(8*i+j, "4");
+                    posjed = posjed.replaceAt(8*i+j, "2");
+                } else if(map[i][j]==5) {
+                    mapa = mapa.replaceAt(8*i+j, "5");
+                    posjed = posjed.replaceAt(8*i+j, "2");
+                } else if(map[i][j]==6) {
+                    mapa = mapa.replaceAt(8*i+j, "6");
+                    posjed = posjed.replaceAt(8*i+j, "2");
+                } else if(map[i][j]==7) {
+                    mapa = mapa.replaceAt(8*i+j, "7");
+                    posjed = posjed.replaceAt(8*i+j, "1");
+                } else if(map[i][j]==2) {
+                    mapa = mapa.replaceAt(8*i+j, "8");
+                    posjed = posjed.replaceAt(8*i+j, "1");
+                } else if(map[i][j]==9) {
+                    mapa = mapa.replaceAt(8*i+j, "9");
+                    posjed = posjed.replaceAt(8*i+j, "1");
+                } else if(map[i][j]==10) {
+                    mapa = mapa.replaceAt(8*i+j, "e");
+                    posjed = posjed.replaceAt(8*i+j, "1");
+                } else if(map[i][j]==11) {
+                    mapa = mapa.replaceAt(8*i+j, "f");
+                    posjed = posjed.replaceAt(8*i+j, "1");
+                } else if(map[i][j]==12) {
+                    mapa = mapa.replaceAt(8*i+j, "g");
+                    posjed = posjed.replaceAt(8*i+j, "1");
+                } else if(map[i][j]==13) {
+                    mapa = mapa.replaceAt(8*i+j, "h");
+                    posjed = posjed.replaceAt(8*i+j, "0");
+                }
+            }
+        }
+    }
+    updateMapPotez();
+    
+    function value(mapx) { //Uzima mapu i vraca vrijednost (dogovorenu)
+        /*JAKO JE VAŽNO DA GRAĐEVINE KOJE SU BLIŽE PALAČAMA IMAJU VEĆU VRIJEDNOST*/
+        var val=0;
+        if(mapx[0]=='7') val+=10000;
+        for(var i=0; i<8; i++) {
+            for(var j=0; j<8; j++) {
+                //Vrijednosti
+                var dist=Math.floor(Math.sqrt(i*i+j*j));
+                if(i==7 && j==7) continue;
+                if(mapx[8*i+j]=='7') {
+                    //Osvoji
+                    if(dist>0) val+=Math.floor((1/dist)*10);
+                } else if(mapx[8*i+j]=='g') val+=150; //Green field
+                else if(mapx[8*i+j]=='8' || mapx[8*i+j]=='e') { //Kuce
+                    val+=dist*20;
+                    if(mapx[8*i+j]=='e') val+=10;
+                }
+                else if(mapx[8*i+j]=='9' || mapx[8*i+j]=='f') {
+                    //Ako je blizu mog ili blizu tudeg
+                    val+=dist*18; //Dvorac1
+                    if(dist<=2) val+=100;
+                    if(mapx[8*i+j]=='f') val+=8; //Lvl 2 dvorac
+                }
+            }
+        }
+        return val;
+    }
+    function osvojioSi(l) {
+        if(l=='1') return '7';
+        else if(l=='2') return '8';
+        else if(l=='3') return '9';
+        else if(l=='4') return 'e';
+        else if(l=='5') return 'f';
+        else if(l=='6') return 'g';
+    }
+    function defended(gP, mapx) {
+        //Vidi je li zasticeno
+        var dod=0;
+        par = new Array();
+        par[0]=Math.floor(gP[0]-'0');
+        par[1]=Math.floor(gP[1]-'0');
+        if(mapx[8*par[0]+par[1]]=='6') return 0; //Dvorci ne stite zelena polja
+        else if(mapx[8*par[0]+par[1]]=='3' || mapx[8*par[0]+par[1]]=='5') {
+            return 2; //Polje je dvorac
+        } else { //Je li zasticeno?
+            for(var i=0; i<8; i++) {
+                if(insideBoard(par[0]+casSmX[i], par[1]+casSmY[i])) {
+                    if(mapx[8*(par[0]+casSmX[i])+par[1]+casSmY[i]]=='3' && dod<1) dod=1;
+                    else if(mapx[8*(par[0]+casSmX[i])+par[1]+casSmY[i]]=='5') dod=2;
+                }
+            }
+            return dod;
+        }
+    }
+    var solution = new Array();
+    function rek(mapx, coins, pot) {
+        var playedAnything=false;
+        if(KOMB_COUNT >= 1000) return 0;
+        if(coins<=0) {
+            KOMB_COUNT+=1;
+            vrPloce=value(mapx);
+            if(vrPloce >= result[0]) {
+                result[0] = vrPloce;
+                result[1] = pot;
+                solution = [];
+                for(var i=0; i<result[1].length; i++) { 
+                    solution[i]=result[1][i];
+                }
+            }
+            return 0;
+        } else {
+            //Gledaj sve poteze di mozes igrat i za svaki potez pozovi rekurziju
+            for(var i=0; i<8; i++) {
+                for(var j=0; j<8; j++) {
+                    if(i==7 && j==7) continue; //Ne moze igrati na svojoj palaci
+                    var z=0;
+                    for(var k=0; k<4; k++) {
+                        if(insideBoard(i+smX[k], j+smY[k]) && posjed[(i+smX[k])*8+j+smY[k]]=='1') z=1;
+                    }
+                    //Ako mogu igrati ovdje
+                    if(z) { //Pronašla sam mogući potez -> izračunaj mu vrijednost -> dodaj ga u rek
+                        var goodPos="";
+                        goodPos+=i;
+                        goodPos+=j;
+                        if(posjed[8*i+j]=='0') { //Nicije polje (sig ima 1 kn)
+                            var temp = mapx[8*i+j];
+                            if(temp=='0') mapx = mapx.replaceAt(8*i+j, "7"); //Neosvojeno
+                            else mapx = mapx.replaceAt(8*i+j, "h"); //Green field
+                            posjed = posjed.replaceAt(8*i+j, '1'); //This
+                            pot[pot.length]=goodPos+"0";
+                            rek(mapx,coins-1,pot);
+                            pot.pop();
+                            posjed = posjed.replaceAt(8*i+j, "0");
+                            mapx = mapx.replaceAt(8*i+j, temp); //Vrati na ono sto je bilo prije
+                            playedAnything=true;
+                        }
+                        else if(posjed[8*i+j]=='1') { //Moje polje
+                            if(!(mapx[8*i+j]=='e' || mapx[8*i+j]=='f')) {
+                                if(coins>=2 && mapx[8*i+j]=='7') { //Gradi kucu
+                                    mapx = mapx.replaceAt(8*i+j, "8"); //Hut pl2
+                                    pot[pot.length]=goodPos+"1";
+                                    rek(mapx,coins-2,pot);
+                                    pot.pop();
+                                    mapx = mapx.replaceAt(8*i+j, "7"); //Hut pl2 (prije je bilo osvojeno polje)
+                                    playedAnything=true;
+                                }
+                                if(coins>=3 && mapx[8*i+j]=='7') { //Gradi dvorac
+                                    mapx = mapx.replaceAt(8*i+j, "9"); //Castle pl2
+                                    pot[pot.length]=goodPos+"3";
+                                    rek(mapx,coins-3,pot);
+                                    pot.pop();
+                                    mapx = mapx.replaceAt(8*i+j, "7"); //Hut pl2 (prije je bilo osvojeno polje)
+                                    playedAnything=true;
+                                }
+                                if(coins>=3 && mapx[8*i+j]=='8') { //Upgrade kuca
+                                    mapx = mapx.replaceAt(8*i+j, "e"); //Hut lvl2
+                                    pot[pot.length]=goodPos+"2";
+                                    rek(mapx,coins-3,pot);
+                                    pot.pop();
+                                    mapx = mapx.replaceAt(8*i+j, "8");
+                                    playedAnything=true;
+                                }
+                                if(coins>=4 && mapx[8*i+j]=='9') { //Upgrade dvorac
+                                    mapx = mapx.replaceAt(8*i+j, "f"); //Castle lvl2
+                                    pot.push_back(goodPos+"2");
+                                    rek(mapx,coins-4,pot);
+                                    pot.pop();
+                                    mapx = mapx.replaceAt(8*i+j, "9");
+                                    playedAnything=true;
+                                }
+                            }
+                        } else { //Tuđe polje
+                            var dod=defended(goodPos, mapx)+1; //Ako je zaštićena, treba još novaca
+                            var temp = mapx[8*i+j];
+                            if(coins >= dod) { //Imam dovoljno novaca za osvajanje
+                                mapx = mapx.replaceAt(8*i+j, osvojioSi(temp));
+                                posjed = posjed.replaceAt(8*i+j, "1");
+                                pot[pot.length]=goodPos+"0";
+                                rek(mapx,coins-dod,pot);
+                                pot.pop();
+                                posjed = posjed.replaceAt(8*i+j, "2"); //Vrati da je tude
+                                mapx = mapx.replaceAt(8*i+j, temp); //Vrati na ono sto je bilo prije
+                                playedAnything=true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(!playedAnything) rek(mapx, 0, pot);
+    }
+    rek(mapa, money, potez);
+    var arr = new Array();
+    var pomocni = new Array();
+    for(var i=0; i<solution.length; i++) {
+        pomocni = [];
+        for(var j=0; j<3; j++) {
+            pomocni[j]=solution[i][j]-'0';
+        } arr[i]=pomocni;
+    }
+    return arr;
+}
 function whatCanIDo(x, y) {
     var nothing=true;
-    var smX = [0,1,0,-1,0];
-    var smY = [-1,0,1,0,0]
-    var casSmX = [-1,-1,-1,0,0,1,1,1];
-    var casSmY = [-1,0,1,-1,1,-1,0,1];
     
     for(var i=0; i<5; i++) { //Za svaki od 4 okolna polja
         if(insideBoard(y+smY[i], x+smX[i])) {
-            for(var j=1; j<=6; j++) {
+            for(var j=1; j<=6; j++) { //Vidi je li tvoje polje
                 if(map[y+smY[i]][x+smX[i]]==j+6*POTEZ) {
                     nothing=false;
                     break;
@@ -61,7 +288,6 @@ function whatCanIDo(x, y) {
             else return 11; //P2
         }
     }
-    
     /*
         0-empty sq
         1-empty sq p1
@@ -73,21 +299,37 @@ function whatCanIDo(x, y) {
         7-empty sq p2
         8-hut p2
         9-castle p2
-        10-hutUp p2
-        11-castleUp p2
-        12-gf p2
-        13-gf noOne
+        10-hutUp p2 e
+        11-castleUp p2 f
+        12-gf p2 g
+        13-gf noOne h
     */
 }
+var times=0;
+function DelayLoop (w) { 
+    setTimeout(function () {
+        computerPlays(w[times][0],w[times][1],w[times][2]);
+        //computerJunky[w[times][2]](w[times][0],w[times][1]);
+        updateTable();
+        times++;
+        if (times < w.length) {
+            DelayLoop(w);
+        }
+   }, 1000);
+}
 function putInMenu(w) {
-    var index;
-    if(w >= 6) index=Math.floor(w/3)+1;
-    else index=Math.floor(w/2);
-    
-    var s = junky[index].length;
-    
+    var index=0;
+    if($.isNumeric(w)) {
+        if(w >= 6) index=Math.floor(w/3)+1;
+        else index=Math.floor(w/2);
+        var s = junky[index].length;
+    }
     $("#gameMenu").children().remove();
     
     var c = coins[POTEZ];
-    junky[index][w%s](w%s, c);
+    
+    if(SP && POTEZ) {
+        times=0;
+        DelayLoop(w);
+    } else junky[index][w%s](w%s, c);
 }

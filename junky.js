@@ -47,7 +47,8 @@ var stuff = [
     ["Conquer","dConquer"]
 ];
 function Cant(z, c) {
-    $("<p>").appendTo("#gameMenu").text(stuff[0][z]);
+    if(SP && POTEZ )$("<p>").appendTo("#gameMenu").text("Computer is playing.");
+    else $("<p>").appendTo("#gameMenu").text(stuff[0][z]);
 };
 function Upgrade(z, c) {
     $("<div>").appendTo("#gameMenu").addClass('menuEl');
@@ -76,7 +77,7 @@ function Upgrade(z, c) {
             if(z==0) {
                 houses[POTEZ]+=1;
                 SEQ=[21,22,23,24];
-            } else SEQ=[26,27,28,29];
+            } else SEQ=[35,36,37,38];
             map[opAt.y][opAt.x] = blocks[0][z] + POTEZ*6;
             var an=[opAt.x, opAt.y];
             mapAnimate[an[1]][an[0]]=SEQ;

@@ -1,4 +1,4 @@
-var interval;
+var interval, roundOne;
 function coinCount(pot) {
     coins[pot]=3+Math.floor(houses[pot]/3)+grF[pot];
 
@@ -28,40 +28,7 @@ var TIME = { //For timer
     t: 60,
     track: 0
 }
-function InitializeGame() {
-    var roundOne=1;
-    POTEZ=0;
-    coins[0]=3;
-    coins[1]=4;
-    houses = [0,0];
-    grF=[0,0];
-    TIME.t=60;
-    TIME.track=0;
-    /*Prima parametar je li SP ili MP*/
-    $('#navBar').show();
-    var xPos=0; var yPos=0;
-    updateTable();
-    whoIsPlaying(POTEZ);
-    /*Define a map*/
-    map = [ [1,0,0,0,0,0,0,13],
-            [0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],
-            [13,0,0,0,0,0,0,7]  ];
-    
-    mapAnimate = [  [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0]  ];
-    
-    Mouse();
+function twoPlayers() {
     interval = setInterval(function() {
         ResetAnimationCounter();
         DrawMap();
@@ -71,7 +38,7 @@ function InitializeGame() {
         TIME = TrackTime(TIME.t, TIME.track);
         $('#time').text('Time: '+TIME.t);
         
-        if(coins[POTEZ]==0 || TIME.t<=0) {
+        if(coins[POTEZ]<=0 || TIME.t<=0) {
             TIME.t = 60;
             TIME.track = 0;
             if(POTEZ) POTEZ=0;
@@ -83,9 +50,77 @@ function InitializeGame() {
             if(POTEZ) roundOne=0;
             whoIsPlaying(POTEZ);
             
-            putInMenu(whatCanIDo(opAt.y, opAt.y));
+            //Sluzi za obnovit menu kod promjene poteza
+            putInMenu(whatCanIDo(opAt.x, opAt.y));
         }
     }, 50);
+}
+function onePlayer() {
+    interval = setInterval(function() {
+        ResetAnimationCounter();
+        DrawMap();
+        MouseH();
+        if(finished()) gameOver(); //Fja finished definirana u junky.js
+        //Timer
+        TIME = TrackTime(TIME.t, TIME.track);
+        $('#time').text('Time: '+TIME.t);
+        
+        if(coins[POTEZ]<=0 || TIME.t<=0) {
+            TIME.t = 60;
+            TIME.track = 0;
+            if(POTEZ) POTEZ=0;
+            else POTEZ=1;
+            if(!roundOne) coinCount(POTEZ);
+            else updateTable();
+            
+            if(POTEZ) roundOne=0;
+            whoIsPlaying(POTEZ);
+            
+            //Sluzi za obnovit menu kod promjene poteza
+            if(!POTEZ) putInMenu(whatCanIDo(opAt.x, opAt.y));
+            else putInMenu(computerMove());
+        }
+    }, 50);
+    
+}
+function InitializeGame() {
+    roundOne=1;
+    POTEZ=0;
+    coins[0]=3;
+    coins[1]=4;
+    houses = [0,0];
+    grF=[0,0];
+    TIME.t=60;
+    TIME.track=0;
+    /*Prima parametar je li SP ili MP*/
+    $('#navBar').show();
+    xPos=0; yPos=0;
+    updateTable();
+    whoIsPlaying(POTEZ);
+    
+    /*Definiraj mapu*/
+    map = [ [1,0,0,0,0,0,0,13],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [13,0,0,0,0,0,0,7]  ];
+    
+    
+    mapAnimate = [  [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0]  ];
+    Mouse();
+    //onePlayer();
+    SP=0;
+    twoPlayers();
 }
 function goodName(p1, p2) {
     if(p1==p2) {
