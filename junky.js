@@ -75,7 +75,6 @@ function Upgrade(z, c) {
     item.click(function() {
         if(item.hasClass('disabled') == false) {
             if(z==0) {
-                houses[POTEZ]+=1;
                 SEQ=[21,22,23,24];
             } else SEQ=[35,36,37,38];
             map[opAt.y][opAt.x] = blocks[0][z] + POTEZ*6;
@@ -103,7 +102,6 @@ function Build(z, c) {
     $('#gameMenu').children().click(function() {
         if($(this).hasClass('disabled') == false) {
             if($(this).hasClass('h')) {
-                houses[POTEZ]+=1;
                 z=0;
                 SEQ=[31,32,33,34];
             } 
@@ -191,9 +189,6 @@ function Conquer2(z, c) {
     item.click(function() {
         if(item.hasClass("disabled")==false) {
             map[opAt.y][opAt.x] = blocks[3][hut] + POTEZ*6;
-            houses[POTEZ]+=hut;
-            if(POTEZ) houses[0]-=hut;
-            else houses[1]-=hut;
             SEQ=[16,17,18,19];
             map[opAt.y][opAt.x] = blocks[3][hut] + POTEZ*6;
             var an=[opAt.x, opAt.y];

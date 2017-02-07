@@ -1,7 +1,18 @@
 var interval, roundOne;
 function coinCount(pot) {
+    houses[0]=0;
+    houses[1]=0;
+    for(var i=0; i<8; i++) {
+        for(var j=0; j<8; j++) {
+            if(map[i][j]==2) houses[0]+=1;
+            else if(map[i][j]==4) houses[0]+=2;
+            else if(map[i][j]==8) houses[1]+=1;
+            else if(map[i][j]==10) houses[1]+=2;
+        }
+    }
+    
     coins[pot]=3+Math.floor(houses[pot]/3)+grF[pot];
-
+    
     updateTable();
 };
 function whoIsPlaying(w) {
@@ -118,9 +129,8 @@ function InitializeGame() {
                     [0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0]  ];
     Mouse();
-    //onePlayer();
-    SP=0;
-    twoPlayers();
+    if(SP) onePlayer();
+    else twoPlayers();
 }
 function goodName(p1, p2) {
     if(p1==p2) {
@@ -142,7 +152,7 @@ function stickNames(p1, p2) {
 function Clicked() {
     $('#startMenu div:first-child').click(function() {
         $('#startMenu').hide();
-        $('#playerNames').show();
+        $('#playerMode').show();
     });
     $('#playerNames div:last-child').click(function() {
         var p1=document.getElementById('pOne').value;
@@ -194,22 +204,6 @@ function Clicked() {
         TIME.track=0;
         $("#gameMenu").hide();
     });
-}
-function GameStart() {
-    clearInterval(interval);
-    
-    $('#playerMode').hide();
-    $('#playerNames').hide();
-    $('#navBar').hide();
-    $('#gameMenu').hide();
-    $('#gameOver').hide();
-    $('#theRules').hide();
-    $('#settings').hide();
-    $('#startMenu').show();
-    
-    
-    /*Player Mode*/
-    /*
     $('#playerMode .pNum').click(function() {
         $('.pNum').removeClass('active');
         $(this).addClass('active');
@@ -217,5 +211,27 @@ function GameStart() {
     $('#playerMode div:last-child').click(function() {
         $('#playerMode').hide();
         $('#playerNames').show();
-    });*/  
+        if($("#sp").hasClass('active')) {
+            SP=1;
+            $("#pOne").val('');
+            $("#pTwo").val('Computer');
+            $("#pTwo").hide();
+        } else {
+            $("#pTwo").val('');
+            $("#pOne").val('');
+            $("#pTwo").show();
+        }
+    });
+}
+function GameStart() {
+    clearInterval(interval);
+    SP=0;
+    $('#playerMode').hide();
+    $('#playerNames').hide();
+    $('#navBar').hide();
+    $('#gameMenu').hide();
+    $('#gameOver').hide();
+    $('#theRules').hide();
+    $('#settings').hide();
+    $('#startMenu').show(); 
 }

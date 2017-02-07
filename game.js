@@ -1,12 +1,7 @@
 var smX = [0,1,0,-1,0];
 var smY = [-1,0,1,0,0]
-var casSmX = [-1,-1,-1,0,0,1,1,1];
-var casSmY = [-1,0,1,-1,1,-1,0,1];
 /*GLAVNI ALGORITAM*/
 //U MAPU SVE OBRNUTO (y pa x)
-function insideBoard(x, y) {
-    return (x>=0 && x < mapSize && y >=0 && y < mapSize);
-}
 function computerThinks(x, y) {
     return 0;
 }
@@ -22,7 +17,7 @@ function computerMove() {
     var potez=new Array();
     var result=new Array();
     result[0]=-1;
-    var money=4;
+    var money=coins[1];
     function updateMapPotez() {
         for(var i=0; i<8; i++) {
             for(var j=0; j<8; j++) {
@@ -47,7 +42,7 @@ function computerMove() {
                 } else if(map[i][j]==7) {
                     mapa = mapa.replaceAt(8*i+j, "7");
                     posjed = posjed.replaceAt(8*i+j, "1");
-                } else if(map[i][j]==2) {
+                } else if(map[i][j]==8) {
                     mapa = mapa.replaceAt(8*i+j, "8");
                     posjed = posjed.replaceAt(8*i+j, "1");
                 } else if(map[i][j]==9) {
@@ -70,7 +65,6 @@ function computerMove() {
         }
     }
     updateMapPotez();
-    
     function value(mapx) { //Uzima mapu i vraca vrijednost (dogovorenu)
         /*JAKO JE VAŽNO DA GRAĐEVINE KOJE SU BLIŽE PALAČAMA IMAJU VEĆU VRIJEDNOST*/
         var val=0;
@@ -155,12 +149,16 @@ function computerMove() {
                         var goodPos="";
                         goodPos+=i;
                         goodPos+=j;
-                        if(posjed[8*i+j]=='0') { //Nicije polje (sig ima 1 kn)
+                        if(posjed[8*i+j]=='0') { //Nicije polje -> empty or mine (sig ima 1 kn)
                             var temp = mapx[8*i+j];
-                            if(temp=='0') mapx = mapx.replaceAt(8*i+j, "7"); //Neosvojeno
-                            else mapx = mapx.replaceAt(8*i+j, "h"); //Green field
+                            if(temp=='0') {
+                                mapx = mapx.replaceAt(8*i+j, "7"); //Neosvojeno
+                                pot[pot.length]=goodPos+"0";
+                            } else {
+                                mapx = mapx.replaceAt(8*i+j, "h"); //Mine
+                                pot[pot.length]=goodPos+"1";
+                            }
                             posjed = posjed.replaceAt(8*i+j, '1'); //This
-                            pot[pot.length]=goodPos+"0";
                             rek(mapx,coins-1,pot);
                             pot.pop();
                             posjed = posjed.replaceAt(8*i+j, "0");
@@ -171,7 +169,7 @@ function computerMove() {
                             if(!(mapx[8*i+j]=='e' || mapx[8*i+j]=='f')) {
                                 if(coins>=2 && mapx[8*i+j]=='7') { //Gradi kucu
                                     mapx = mapx.replaceAt(8*i+j, "8"); //Hut pl2
-                                    pot[pot.length]=goodPos+"1";
+                                    pot[pot.length]=goodPos+"2";
                                     rek(mapx,coins-2,pot);
                                     pot.pop();
                                     mapx = mapx.replaceAt(8*i+j, "7"); //Hut pl2 (prije je bilo osvojeno polje)
@@ -187,7 +185,7 @@ function computerMove() {
                                 }
                                 if(coins>=3 && mapx[8*i+j]=='8') { //Upgrade kuca
                                     mapx = mapx.replaceAt(8*i+j, "e"); //Hut lvl2
-                                    pot[pot.length]=goodPos+"2";
+                                    pot[pot.length]=goodPos+"4";
                                     rek(mapx,coins-3,pot);
                                     pot.pop();
                                     mapx = mapx.replaceAt(8*i+j, "8");
@@ -195,7 +193,7 @@ function computerMove() {
                                 }
                                 if(coins>=4 && mapx[8*i+j]=='9') { //Upgrade dvorac
                                     mapx = mapx.replaceAt(8*i+j, "f"); //Castle lvl2
-                                    pot.push_back(goodPos+"2");
+                                    pot.push_back(goodPos+"5");
                                     rek(mapx,coins-4,pot);
                                     pot.pop();
                                     mapx = mapx.replaceAt(8*i+j, "9");
@@ -208,7 +206,7 @@ function computerMove() {
                             if(coins >= dod) { //Imam dovoljno novaca za osvajanje
                                 mapx = mapx.replaceAt(8*i+j, osvojioSi(temp));
                                 posjed = posjed.replaceAt(8*i+j, "1");
-                                pot[pot.length]=goodPos+"0";
+                                pot[pot.length]=goodPos+"6";
                                 rek(mapx,coins-dod,pot);
                                 pot.pop();
                                 posjed = posjed.replaceAt(8*i+j, "2"); //Vrati da je tude
