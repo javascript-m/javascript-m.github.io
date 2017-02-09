@@ -63,7 +63,7 @@
 /*Game canvas*/
 #game {
     border: 3px solid black;
-    /*cursor: pointer;*/
+    cursor: pointer;
 }
 #canvasCont {
     margin-bottom: 10px;
@@ -98,6 +98,36 @@
 .hm div:hover {
     background-color: rgba(58,58,58, 1);
 }
+#comic {
+    padding: 0;
+    display:  none;
+}
+#comic #lArrow, #comic #rArrow {
+    position: absolute;
+    height: 50px; width: 50px;
+    border: none;
+    top: 590px;
+    background-size: 100% 100%;
+}
+#comic #lArrow { /*576/2-80*/
+    left: 220;
+    background-image: url('Sprites/Comic/lArrow.png');
+}
+#comic #rArrow {
+    left: 276;
+    background-image: url('Sprites/Comic/rArrow.png');
+}
+#comic #lArrow:hover, #comic #rArrow:hover {
+    height: 55px;
+    width: 55px;
+}
+#comic #comImg {
+    background-image: url('Sprites/Comic/1.png');
+    width: 574px;
+    height: 574px;
+    background-size: 100% 100%;
+    cursor: default;
+}
 #startMenu, #playerMode, #playerNames, #gameMenu, #gameOver {
     text-align: center;
 }
@@ -123,6 +153,7 @@
 }
 #playerMode .active {
     border: 3px solid white;
+    background-color: midnightblue;
 }
 #playerNames input {
     padding: 10px 5px;

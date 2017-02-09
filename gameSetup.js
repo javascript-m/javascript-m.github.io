@@ -170,7 +170,9 @@ function Clicked() {
     $('#theRules div:nth-child(7)').click(function() {
         $('#startMenu').hide();
         $('#theRules').hide();
-        $('#playerNames').show();
+        $("#playerMode div").removeClass("active");
+        $("#sp").addClass("active");
+        $('#playerMode').show();
     });
     /*Settings*/
     $('.settings').click(function() {

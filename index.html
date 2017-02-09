@@ -65,8 +65,8 @@
             GameStart();
             
             //InitializeGame();//Remove this
-            //$('#areYouSure, #startMenu, #theRules, #gameOver, #playerNames').hide();//And this
-            //$("#settings").show();
+            //$('#areYouSure, #startMenu, #theRules, #gameOver, #playerNames, #setting').hide();//And this
+            //$("#comic").show();
             
         });
         window.load(function() {
@@ -110,6 +110,11 @@
                 </div>
             </div>
             <canvas id="game"></canvas> <!--Static-->
+            <div id="comic" class="onCanvasI">
+                <div id="lArrow"></div>
+                <div id="rArrow"></div>
+                <div id="comImg"></div>
+            </div>
             <div id="startMenu" class="hm onCanvasI"> <!--ID=StartMenu-->
                 <div>START</div>
                 <div>The Rules</div>
